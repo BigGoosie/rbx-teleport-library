@@ -75,7 +75,7 @@ function Teleport:Advanced(...)
 				if (params[3] ~= nil) then print("No need for this silly! It's instant!") end
 				lp.Character.HumanoidRootPart.CFrame = params[3]
 			else
-				if (params[3] == nil) then params[3] = 1.5 end
+				if (params[4] == nil) then params[4] = 1.5 end
 				Teleport.TweenAnim = TweenService:Create(
 					lp.Character.HumanoidRootPart.CFrame,
 					TweenInfo.new(params[4], Enum.EasingStyle.Linear),
