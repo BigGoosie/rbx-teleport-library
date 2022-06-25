@@ -128,7 +128,7 @@ function Teleport:Smart(...)
 
 	if (lp.Character == nil) then return print("Cannot find localplayer") end
 	if (Teleport.TweenAnim ~= nil) then Teleport.TweenAnim:Cancel() end
-	if (params[2] == nil) then return print("You need a CFrame or Instance to teleport to.") end
+	if (params[1] ~= Teleport.Type.Mouse and params[2] == nil) then return print("You need a CFrame or Instance to teleport to.") end
 	
 	if (params[1] == Teleport.Type.Mouse) then 
 		local mouse = lp:GetMouse()
@@ -192,3 +192,47 @@ function Teleport:Smart(...)
 	end
 end
 return Teleport
+
+--[[
+	// API Below
+
+	local Teleport = loadstring(game:HttpGet("https://raw.githubusercontent.com/BigGoosie/rbx-teleport-library/main/teleport.lua"))()
+
+	Teleport:Advanced(
+		Teleport.Type.Regular, -- Mouse or Regular. For mouse call it in a InputBegan function
+		Teleport.Style.Linear, -- The style of the teleport. Instant, Distance, or Linear
+		game.Workspace.Props["Simple Bridge"].Part.CFrame, -- The cframe or instance you want to teleport to
+		1 -- Tween Timing, you don't need this but it is defaulted at 1.5
+	)
+	Teleport:Advanced(
+		Teleport.Type.Regular, -- Mouse or Regular. For mouse call it in a InputBegan function
+		Teleport.Style.Distance, -- The style of the teleport. Instant, Distance, or Linear
+		game.Workspace.Props["Simple Bridge"].Part -- The cframe or instance you want to teleport to
+	)
+
+	Teleport:Smart(
+		Teleport.Type.Regular, -- Regular because we are not putting this in a InputBegan function ^-^
+		game.Workspace.Props["Simple Bridge"].Part -- The cframe or instance you want to teleport to
+	)
+
+	game:GetService("UserInputService").InputBegan:Connect(function(input)
+		if (input.UserInputType == Enum.UserInputType.MouseButton1 and game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.LeftControl)) then
+			Teleport:Advanced(
+				Teleport.Type.Mouse, -- Mouse because its in a InputBegan function (you can call it in the function but we are teleporting to the mouse)
+				Teleport.Style.Instant -- The style of the teleport. Instant, Distance, or Linear
+			)
+		end
+	end)
+
+	game:GetService("UserInputService").InputBegan:Connect(function(input)
+		if (input.UserInputType == Enum.UserInputType.MouseButton1 and game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.LeftControl)) then
+			Teleport:Smart(
+				Teleport.Type.Mouse -- No further argumnets because of the design,
+			)
+		end
+	end)
+
+	Teleport.Settings.CustomStudSpeed = 200 -- Defualt speed, this effects Distance & Smart teleport functions
+	Teleport.Settings.MinimumInstantTeleport = 0 -- Default Minimum distance, this only effects the Smart teleport function
+	Teleport.Settings.MaximumInstantTeleport = 500 -- Default Maximum distance, this only effects the Smart teleport function
+]]
