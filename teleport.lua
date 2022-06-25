@@ -135,7 +135,7 @@ function Teleport:Smart(...)
 		local hit = mouse.Hit.p + Vector3.new(0, 5, 0)
 
 		if (typeof(params[2]) == "CFrame") then
-			if (Teleport:Distance(hit) <= Teleport.Settings.MinimumInstant and Teleport:Distance(hit) <= Teleport.Settings.MaximumInstantTeleport) then
+			if (Teleport:Distance(hit) <= Teleport.Settings.MinimumInstantTeleport and Teleport:Distance(hit) <= Teleport.Settings.MaximumInstantTeleport) then
 				lp.Character.HumanoidRootPart.CFrame = hit; return
 			end
 	
@@ -147,7 +147,7 @@ function Teleport:Smart(...)
 			)
 			Teleport.TweenAnim:Play(); Teleport.TweenAnim.Completed:Wait(); Teleport.TweenAnim = nil
 		elseif (typeof(params[2]) == "Instance") then
-			if (Teleport:Distance(hit) <= Teleport.Settings.MinimumInstant and Teleport:Distance(hit) <= Teleport.Settings.MaximumInstantTeleport) then
+			if (Teleport:Distance(hit) <= Teleport.Settings.MinimumInstantTeleport and Teleport:Distance(hit) <= Teleport.Settings.MaximumInstantTeleport) then
 				lp.Character.HumanoidRootPart.CFrame = hit; return
 			end
 	
@@ -163,7 +163,7 @@ function Teleport:Smart(...)
 		end
 	else
 		if (typeof(params[2]) == "CFrame") then
-			if (Teleport:Distance((params[2] + Vector3.new(0, 5, 0))) <= Teleport.Settings.MinimumInstant and Teleport:Distance((params[2] + Vector3.new(0, 5, 0))) <= Teleport.Settings.MaximumInstantTeleport) then
+			if (Teleport:Distance((params[2] + Vector3.new(0, 5, 0))) <= Teleport.Settings.MinimumInstantTeleport and Teleport:Distance((params[2] + Vector3.new(0, 5, 0))) <= Teleport.Settings.MaximumInstantTeleport) then
 				lp.Character.HumanoidRootPart.CFrame = (params[2] + Vector3.new(0, 5, 0)); return
 			end
 	
@@ -175,7 +175,7 @@ function Teleport:Smart(...)
 			)
 			Teleport.TweenAnim:Play(); Teleport.TweenAnim.Completed:Wait(); Teleport.TweenAnim = nil
 		elseif (typeof(params[2]) == "Instance") then
-			if (Teleport:Distance((params[2].CFrame + Vector3.new(0, 5, 0))) <= Teleport.Settings.MinimumInstant and Teleport:Distance((params[2].CFrame + Vector3.new(0, 5, 0))) <= Teleport.Settings.MaximumInstantTeleport) then
+			if (Teleport:Distance((params[2].CFrame + Vector3.new(0, 5, 0))) <= Teleport.Settings.MinimumInstantTeleport and Teleport:Distance((params[2].CFrame + Vector3.new(0, 5, 0))) <= Teleport.Settings.MaximumInstantTeleport) then
 				lp.Character.HumanoidRootPart.CFrame = (params[2].CFrame + Vector3.new(0, 5, 0)); return
 			end
 	
