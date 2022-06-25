@@ -25,11 +25,13 @@ function Teleport:Distance(v, mouse)
 	elseif (typeof(v) == "Instance") then 
 		local postion = Vector3.new(v.CFrame.X, v.CFrame.Y, v.CFrame.Z)
 		distance = (lp.Character.HumanoidRootPart.Position - postion).Magnitude
-	elseif (mouse) then 
-		local postion = Vector3.new(v.X, v.Y, v.Z)
-		distance = (lp.Character.HumanoidRootPart.Position - postion).Magnitude
 	else
-		print("Sorry, there is no support for: ".. typeof(v).. " currently.")
+		if (mouse) then 
+			local postion = Vector3.new(v.X, v.Y, v.Z)
+			distance = (lp.Character.HumanoidRootPart.Position - postion).Magnitude
+		else
+			print("Sorry, there is no support for: ".. typeof(v).. " currently.")
+		end
 	end
 
 	return distance
