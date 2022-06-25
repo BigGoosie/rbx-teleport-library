@@ -15,16 +15,19 @@ Teleport.Settings = {
 	MaximumInstantTeleport = 500,
 }
 
-function Teleport:Distance(v)
+function Teleport:Distance(v, mouse)
 	local lp = game.Players.LocalPlayer 
 	local distance = 0
 
 	if (typeof(v) == "CFrame") then 
 		local postion = Vector3.new(v.X, v.Y, v.Z)
-		local distance = (lp.Character.HumanoidRootPart.Position - postion).Magnitude
+		distance = (lp.Character.HumanoidRootPart.Position - postion).Magnitude
 	elseif (typeof(v) == "Instance") then 
 		local postion = Vector3.new(v.CFrame.X, v.CFrame.Y, v.CFrame.Z)
-		local distance = (lp.Character.HumanoidRootPart.Position - postion).Magnitude
+		distance = (lp.Character.HumanoidRootPart.Position - postion).Magnitude
+	elseif (mouse) then 
+		local postion = Vector3.new(v.X, v.Y, v.Z)
+		distance = (lp.Character.HumanoidRootPart.Position - postion).Magnitude
 	else
 		print("Sorry, there is no support for: ".. typeof(v).. " currently.")
 	end
@@ -47,7 +50,7 @@ function Teleport:Advanced(...)
 		if (params[2] == Teleport.Style.Distance) then 
 			if (params[3] ~= nil) then print("No need for this silly! It's automatic!") end
 
-			local Speed = Teleport:Distance(hit) / Teleport.Settings.CustomStudSpeed
+			local Speed = Teleport:Distance(hit, true) / Teleport.Settings.CustomStudSpeed
 			Teleport.TweenAnim = TweenService:Create(
 				lp.Character.HumanoidRootPart,
 				TweenInfo.new(Speed, Enum.EasingStyle.Linear),
@@ -134,7 +137,7 @@ function Teleport:Smart(...)
 		local hit = mouse.Hit.p + Vector3.new(0, 5, 0)
 
 		if (typeof(params[2]) == "CFrame") then
-			if (Teleport:Distance(hit) <= Teleport.Settings.MinimumInstantTeleport and Teleport:Distance(hit) <= Teleport.Settings.MaximumInstantTeleport) then
+			if (Teleport:Distance(hit, true) <= Teleport.Settings.MinimumInstantTeleport and Teleport:Distance(hit, true) <= Teleport.Settings.MaximumInstantTeleport) then
 				lp.Character.HumanoidRootPart.CFrame = hit; return
 			end
 	
@@ -146,11 +149,11 @@ function Teleport:Smart(...)
 			)
 			Teleport.TweenAnim:Play(); Teleport.TweenAnim.Completed:Wait(); Teleport.TweenAnim = nil
 		elseif (typeof(params[2]) == "Instance") then
-			if (Teleport:Distance(hit) <= Teleport.Settings.MinimumInstantTeleport and Teleport:Distance(hit) <= Teleport.Settings.MaximumInstantTeleport) then
+			if (Teleport:Distance(hit, true) <= Teleport.Settings.MinimumInstantTeleport and Teleport:Distance(hit, true) <= Teleport.Settings.MaximumInstantTeleport) then
 				lp.Character.HumanoidRootPart.CFrame = hit; return
 			end
 	
-			local Speed = Teleport:Distance(hit) / Teleport.Settings.CustomStudSpeed
+			local Speed = Teleport:Distance(hit, true) / Teleport.Settings.CustomStudSpeed
 			Teleport.TweenAnim = TweenService:Create(
 				lp.Character.HumanoidRootPart,
 				TweenInfo.new(Speed, Enum.EasingStyle.Linear),
