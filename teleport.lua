@@ -149,9 +149,9 @@ function Teleport:Smart(...)
 		Teleport.TweenAnim:Play(); Teleport.TweenAnim.Completed:Wait(); Teleport.TweenAnim = nil
 	else
 		if (params[2] == nil) then return print("You need a CFrame or Instance to teleport to.") end
-		local targetLocation = params[2].CFrame + Vector3.new(0, 5, 0)
 
 		if (typeof(params[2]) == "CFrame") then
+			local targetLocation = params[2] + Vector3.new(0, 5, 0)
 			if (Teleport:Distance(targetLocation) >= Teleport.Settings.MinimumInstantTeleport and Teleport:Distance(targetLocation) <= Teleport.Settings.MaximumInstantTeleport) then
 				lp.Character.HumanoidRootPart.CFrame = targetLocation; return
 			end
@@ -164,6 +164,7 @@ function Teleport:Smart(...)
 			)
 			Teleport.TweenAnim:Play(); Teleport.TweenAnim.Completed:Wait(); Teleport.TweenAnim = nil
 		elseif (typeof(params[2]) == "Instance") then
+			local targetLocation = params[2].CFrame + Vector3.new(0, 5, 0)
 			if (Teleport:Distance(targetLocation) >= Teleport.Settings.MinimumInstantTeleport and Teleport:Distance(targetLocation) <= Teleport.Settings.MaximumInstantTeleport) then
 				lp.Character.HumanoidRootPart.CFrame = targetLocation; return
 			end
