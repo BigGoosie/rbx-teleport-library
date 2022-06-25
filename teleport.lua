@@ -17,8 +17,18 @@ Teleport.Settings = {
 
 function Teleport:Distance(v)
 	local lp = game.Players.LocalPlayer 
-	local postion = Vector3.new(v.X, v.Y, v.Z)
-	local distance = (lp.Character.HumanoidRootPart.Position - postion).Magnitude
+	local distance = 0
+
+	if (typeof(v) == "CFrame") then 
+		local postion = Vector3.new(v.X, v.Y, v.Z)
+		local distance = (lp.Character.HumanoidRootPart.Position - postion).Magnitude
+	elseif (typeof(v) == "Instance") then 
+		local postion = Vector3.new(v.CFrame.X, v.CFrame.Y, v.CFrame.Z)
+		local distance = (lp.Character.HumanoidRootPart.Position - postion).Magnitude
+	else
+		print("Sorry, there is no support for: ".. typeof(v).. " currently.")
+	end
+
 	return distance
 end
 
