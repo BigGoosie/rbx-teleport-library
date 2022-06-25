@@ -34,14 +34,14 @@ function Notification:Create(title, desc, tdur, dur)
     local sizex, sizey = s.Size.X.Scale, s.Size.Y.Scale
     local t1 = TweenService:Create(
         s, 
-        TweenInfo.new(tdur / 3, Enum.EasingStyle.Linear),
+        TweenInfo.new(tdur / 2, Enum.EasingStyle.Linear),
         { Position = UDim2.new((Screen[1] - sizex) - 0.005, 0, (Screen[2] - sizey) - 0.005, 0) }
     )
     t1:Play(); t1.Completed:Wait(); task.wait(dur)
 
     local t2 = TweenService:Create(
         s, 
-        TweenInfo.new(tdur / 3, Enum.EasingStyle.Linear),
+        TweenInfo.new(tdur / 2, Enum.EasingStyle.Linear),
         { Position = UDim2.new((sizex + Screen[1]) + 0.005, 0, (sizey + Screen[2]) + 0.005, 0) }
     )
     t2:Play(); t2.Completed:Wait();
