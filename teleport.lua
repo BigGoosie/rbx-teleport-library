@@ -15,9 +15,15 @@ Teleport.Settings = {
 	MaximumInstantTeleport = 500,
 }
 
-function Teleport:Distance(v, mouse)
+function Teleport:Distance(v, bypass)
 	local lp = game.Players.LocalPlayer 
 	local distance = 0
+
+	if (bypass) then 
+		local postion = Vector3.new(v.X, v.Y, v.Z)
+		distance = (lp.Character.HumanoidRootPart.Position - postion).Magnitude
+		return distance
+	end
 
 	if (typeof(v) == "CFrame") then 
 		local postion = Vector3.new(v.X, v.Y, v.Z)
@@ -26,12 +32,7 @@ function Teleport:Distance(v, mouse)
 		local postion = Vector3.new(v.CFrame.X, v.CFrame.Y, v.CFrame.Z)
 		distance = (lp.Character.HumanoidRootPart.Position - postion).Magnitude
 	else
-		if (mouse) then 
-			local postion = Vector3.new(v.X, v.Y, v.Z)
-			distance = (lp.Character.HumanoidRootPart.Position - postion).Magnitude
-		else
-			print("Sorry, there is no support for: ".. typeof(v).. " currently.")
-		end
+		print("Sorry, there is no support for: ".. typeof(v).. " currently.")
 	end
 
 	return distance
