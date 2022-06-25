@@ -39,7 +39,6 @@ function Teleport:Advanced(...)
 
 	if (lp.Character == nil) then return print("Cannot find localplayer") end
 	if (Teleport.TweenAnim ~= nil) then Teleport.TweenAnim:Cancel() end
-	if (params[3] == nil) then return print("You need a CFrame or Instance to teleport to.") end
 
 	if (params[1] == Teleport.Type.Mouse) then 
 		local mouse = lp:GetMouse()
@@ -68,6 +67,7 @@ function Teleport:Advanced(...)
 			Teleport.TweenAnim:Play(); Teleport.TweenAnim.Completed:Wait(); Teleport.TweenAnim = nil
 		end
 	else
+		if (params[3] == nil) then return print("You need a CFrame or Instance to teleport to.") end
 		if (typeof(params[3]) == "CFrame") then
 			if (params[2] == Teleport.Style.Distance) then 
 				if (params[4] ~= nil) then print("No need for this time paramiter silly! It's automatic!") end
@@ -128,7 +128,6 @@ function Teleport:Smart(...)
 
 	if (lp.Character == nil) then return print("Cannot find localplayer") end
 	if (Teleport.TweenAnim ~= nil) then Teleport.TweenAnim:Cancel() end
-	if (params[1] ~= Teleport.Type.Mouse and params[2] == nil) then return print("You need a CFrame or Instance to teleport to.") end
 	
 	if (params[1] == Teleport.Type.Mouse) then 
 		local mouse = lp:GetMouse()
@@ -162,6 +161,7 @@ function Teleport:Smart(...)
 			print("Sorry, there is no support for: ".. typeof(params[2]).. " currently.")
 		end
 	else
+		if (params[2] == nil) then return print("You need a CFrame or Instance to teleport to.") end
 		if (typeof(params[2]) == "CFrame") then
 			if (Teleport:Distance((params[2] + Vector3.new(0, 5, 0))) <= Teleport.Settings.MinimumInstantTeleport and Teleport:Distance((params[2] + Vector3.new(0, 5, 0))) <= Teleport.Settings.MaximumInstantTeleport) then
 				lp.Character.HumanoidRootPart.CFrame = (params[2] + Vector3.new(0, 5, 0)); return
