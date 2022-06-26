@@ -46,6 +46,10 @@ function Teleport:Advanced(...)
 		Notification:Create("an obstruction has occured", "sorry, we cannot locate the localplayer try again", 1, 5)
 		return
 	end
+	if (params[1] == nil) then 
+		Notification:Create("an obstruction has occured", "sorry, you need to provide teleport type", 1, 5)
+		return
+	end
 	if (params[1] == Teleport.Type.Mouse) then
 		local Hit = Mouse.Hit.p + Vector3.new(0, 5, 0)
 
@@ -87,6 +91,10 @@ function Teleport:Smart(...)
 
 	if (lp.Character == nil) then 
 		Notification:Create("an obstruction has occured", "sorry, we cannot locate the localplayer try again", 1, 5)
+		return
+	end
+	if (params[1] == nil) then 
+		Notification:Create("an obstruction has occured", "sorry, you need to provide teleport type", 1, 5)
 		return
 	end
 	if (params[1] == Teleport.Type.Mouse) then
