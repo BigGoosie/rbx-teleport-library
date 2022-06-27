@@ -1,4 +1,4 @@
-local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BigGoosie/rbx-teleport-library/main/notification.lua"))()
+local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BigGoosie/rbx-libraries/main/notification.lua"))()
 local TweenService = game:GetService("TweenService")
 local Teleport = {}
 Teleport.TweenAnim = nil
