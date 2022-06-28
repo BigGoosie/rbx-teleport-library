@@ -174,12 +174,38 @@ function Library:CreateWindow()
         end)
 
         local groupboxes = {}
-        function groupboxes:CreateGroupbox()
-            if (#groupboxes >= 4) then return warn("[synapense] you cannot have more than 4 groupboxes in one section, either create a new section or remove the groupboxes") end
+        function groupboxes:CreateGroupbox(gbName)
+            gbName = gbName or "groupbox" --if (#groupboxes >= 4) then return warn("[synapense] you cannot have more than 4 groupboxes in one section, either create a new section or remove the groupboxes") end
             local gB = Instance.new("Frame")
+            local gBT = Instance.new("TextLabel")
+            local gBTC = Instance.new("Frame")
             local gBIL = Instance.new("ScrollingFrame")
             local gBLayout = Instance.new("UIListLayout")
             local gBSP = Instance.new("Frame")
+
+            gBT.Name = "gBT"
+            gBT.Parent = gB
+            gBT.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            gBT.BackgroundTransparency = 1.000
+            gBT.BorderSizePixel = 0
+            gBT.Position = UDim2.new(0, 7, 0, -2)
+            gBT.Size = UDim2.new(1, -5, 0, 1)
+            gBT.Font = Enum.Font.SourceSans
+            gBT.Text = gbName
+            gBT.TextColor3 = Color3.fromRGB(150, 150, 150)
+            gBT.TextSize = 15.000
+            gBT.TextXAlignment = Enum.TextXAlignment.Left
+            gBT.ZIndex = 2
+
+            gBTC.Name = "gBTC"
+            gBTC.Parent = gB
+            gBTC.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
+            gBTC.BorderSizePixel = 0
+            gBTC.Position = UDim2.new(0, 4, 0, 0)
+            gBTC.Size = UDim2.new(1, -5, 0, 1)
+            local gBTS = game:GetService("TextService"):GetTextSize(gBT.Text, gBT.TextSize, gBT.Font, Vector2.new(math.huge, math.huge))
+            gBT.Size = UDim2.new(0, gBTS.X + 5, 0, 1)
+            gBTC.Size = UDim2.new(0, gBTS.X + 6, 0, 1)
 
             gB.Name = "gB"
             gB.Parent = sI
@@ -443,6 +469,79 @@ function Library:CreateWindow()
                         end
                     end)
                 end)
+            end
+
+            function items:Bind(text, key, callback)
+                text = text or "bind"; key = key or Enum.KeyCode.Escape; callback = callback or function() end
+                local oldBind = key.Name
+    
+                local b = Instance.new("Frame")
+                local bT = Instance.new("TextLabel")
+                local bC = Instance.new("TextButton")
+
+                --Properties:
+
+                b.Name = "b"
+                b.Parent = gBIL
+                b.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                b.BackgroundTransparency = 1.000
+                b.BorderSizePixel = 0
+                b.Size = UDim2.new(1, 0, 0, 15)
+
+                bT.Name = "bT"
+                bT.Parent = b
+                bT.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                bT.BackgroundTransparency = 1.000
+                bT.BorderSizePixel = 0
+                bT.Position = UDim2.new(0.115000002, 0, 0, 0)
+                bT.Size = UDim2.new(1, -28, 0, 15)
+                bT.Font = Enum.Font.SourceSans
+                bT.Text = text
+                bT.TextColor3 = Color3.fromRGB(150, 150, 150)
+                bT.TextSize = 15.000
+                bT.TextXAlignment = Enum.TextXAlignment.Left
+
+                bC.Name = "bC"
+                bC.Parent = b
+                bC.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                bC.BackgroundTransparency = 1.000
+                bC.BorderSizePixel = 0
+                bC.Position = UDim2.new(0.800000012, 0, 0, 0)
+                bC.Size = UDim2.new(0, 15, 1, 0)
+                bC.Font = Enum.Font.SourceSansSemibold
+                bC.Text = "["..string.lower(oldBind).."]"
+                bC.TextColor3 = Color3.fromRGB(74, 74, 74)
+                bC.TextSize = 13.000
+                bC.MouseButton1Click:Connect(function()
+                    bC.Text = "[-]"
+                    local v1, v2 = game:GetService('UserInputService').InputBegan:Wait();
+                    if v1.KeyCode.Name ~= "Unknown" then
+                        bC.Text = "["..string.lower(v1.KeyCode.Name).."]"
+                        oldBind = v1.KeyCode.Name;
+                    end
+                end)
+
+                local debounce = false
+                game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent) 
+                    if not gameProcessedEvent then 
+                        if input.KeyCode.Name == oldBind then 
+                            if not debounce then
+                                debounce = true
+                                callback()
+                                debounce = false
+                            end
+                        end
+                    end
+                end)
+            end
+
+            function items:SetName(text)
+                text = text or "groupbox"
+
+                local gBTS = game:GetService("TextService"):GetTextSize(text, gBT.TextSize, gBT.Font, Vector2.new(math.huge, math.huge))
+                gBT.Text = text
+                gBT.Size = UDim2.new(0, gBTS.X + 5, 0, 1)
+                gBTC.Size = UDim2.new(0, gBTS.X + 6, 0, 1)
             end
             return items
         end
