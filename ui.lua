@@ -473,8 +473,8 @@ function Library:CreateWindow()
 
             function items:Bind(text, key, callback)
                 text = text or "bind"; key = key or Enum.KeyCode.Escape; callback = callback or function() end
-                local oldBind = "["..key.Name.."]"
-                if (oldBind == "["..Enum.KeyCode.Escape.Name.."]") then oldBind = "[-]" end
+                local oldBind = key.Name
+                if (oldBind == Enum.KeyCode.Escape.Name) then oldBind = "-" end
 
                 local b = Instance.new("Frame")
                 local bT = Instance.new("TextLabel")
@@ -510,7 +510,7 @@ function Library:CreateWindow()
                 bC.Position = UDim2.new(0.800000012, 0, 0, 0)
                 bC.Size = UDim2.new(0, 15, 1, 0)
                 bC.Font = Enum.Font.SourceSansSemibold
-                bC.Text = string.lower(oldBind)
+                bC.Text = "["..string.lower(oldBind).."]"
                 bC.TextColor3 = Color3.fromRGB(74, 74, 74)
                 bC.TextSize = 13.000
                 bC.MouseButton1Click:Connect(function()
