@@ -473,7 +473,7 @@ function Library:CreateWindow()
 
             function items:Bind(text, key, callback)
                 text = text or "bind"; key = key or Enum.KeyCode.Escape; callback = callback or function() end
-                local oldBind = key.Name,
+                local oldBind = key.Name
                 if (oldBind == Enum.KeyCode.Escape.Name) then oldBind = "-" end
 
                 local b = Instance.new("Frame")
