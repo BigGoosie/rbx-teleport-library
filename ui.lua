@@ -473,7 +473,7 @@ function Library:CreateWindow()
 
             function items:Bind(text, key, callback)
                 text = text or "bind"; key = key or Enum.KeyCode.Escape; callback = callback or function() end
-                local oldBind, justSet = key.Name, false
+                local oldBind = key.Name,
                 if (oldBind == Enum.KeyCode.Escape.Name) then oldBind = "-" end
 
                 local b = Instance.new("Frame")
@@ -517,7 +517,6 @@ function Library:CreateWindow()
                     if v1.KeyCode.Name ~= "Unknown" then
                         bC.Text = "["..string.lower(v1.KeyCode.Name).."]"
                         oldBind = v1.KeyCode.Name;
-                        justSet = true
                         if (oldBind == Enum.KeyCode.Escape.Name) then 
                             bC.Text = "[-]"
                             oldBind = "[-]"
@@ -529,7 +528,6 @@ function Library:CreateWindow()
                 game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent) 
                     if not gameProcessedEvent then 
                         if input.KeyCode.Name == oldBind then 
-                            if (justSet) then justSet = false return end
                             if not debounce then
                                 debounce = true
                                 callback()
