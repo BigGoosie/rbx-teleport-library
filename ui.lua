@@ -527,9 +527,9 @@ function Library:CreateWindow()
 
                 local debounce = false
                 game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent) 
-                    if (justSet) then justSet = false return end
                     if not gameProcessedEvent then 
                         if input.KeyCode.Name == oldBind then 
+                            if (justSet) then justSet = false return end
                             if not debounce then
                                 debounce = true
                                 callback()
