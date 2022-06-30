@@ -4,6 +4,12 @@ local TextService = game:GetService("TextService")
 local Mouse = game.Players.LocalPlayer:GetMouse()
 local Library = {}
 
+function Library:Toggle()
+    if (not CoreGui:FindFirstChild("Synapense")) then return end
+    local UI = CoreGui:FindFirstChild("Synapense")
+    UI.Enabled = not UI.Enabled
+end
+
 function Library:CreateWindow()
     if (CoreGui:FindFirstChild("Synapense")) then CoreGui["Synapense"]:Destroy() end
     local Synapense = Instance.new("ScreenGui")
@@ -31,7 +37,6 @@ function Library:CreateWindow()
     s.Position = UDim2.new(0.071294561, 0, 0.181286544, 0)
     s.Size = UDim2.new(0, 650, 0, 498)
     s.Draggable = true
-    s.ZIndex = 1
 
     b1.Name = "b1"
     b1.Parent = s
@@ -175,7 +180,7 @@ function Library:CreateWindow()
 
         local groupboxes = {}
         function groupboxes:CreateGroupbox(gbName)
-            gbName = gbName or "groupbox" --if (#groupboxes >= 4) then return warn("[synapense] you cannot have more than 4 groupboxes in one section, either create a new section or remove the groupboxes") end
+            gbName = gbName or "groupbox"
             local gB = Instance.new("Frame")
             local gBT = Instance.new("TextLabel")
             local gBTC = Instance.new("Frame")
@@ -260,6 +265,12 @@ function Library:CreateWindow()
                 lT.TextColor3 = Color3.fromRGB(150, 150, 150)
                 lT.TextSize = 15.000
                 lT.TextXAlignment = Enum.TextXAlignment.Left
+
+                local props = {}
+                function props:SetText(nText)
+                    nText = nText or text; text = nText; lT.Text = text
+                end
+                return props
             end
 
             function items:Button(text, callback)
@@ -294,16 +305,24 @@ function Library:CreateWindow()
                 bC.TextColor3 = Color3.fromRGB(150, 150, 150)
                 bC.TextSize = 15.000
                 bC.MouseButton1Click:Connect(function()
-                    pcall(function()
-                        callback()
-                    end)
+                    pcall(function() callback() end)
                 end)
+
+                local props = {}
+                function props:SetText(nText)
+                    nText = nText or text; text = nText; bC.Text = text
+                end
+                function props:Update(nText, nCallback)
+                    nText = nText or text; nCallback = nCallback or callback
+                    bC.Text = text; callback = nCallback
+                end
+                return props
             end
 
-            function items:Toggle(text, callback)
-                text = text or "toggle"; callback = callback or function() end
+            function items:Toggle(text, state, callback)
+                text = text or "toggle"; state = state or false; callback = callback or function() end
+                local value = state 
 
-                local v = false 
                 local t = Instance.new("Frame")
                 local tT = Instance.new("TextLabel")
                 local tB = Instance.new("Frame")
@@ -348,8 +367,10 @@ function Library:CreateWindow()
                 tC.TextColor3 = Color3.fromRGB(0, 0, 0)
                 tC.TextSize = 14.000
 
+                pcall(function() callback(value) end)
+
                 tC.MouseEnter:Connect(function()
-                    if (v) then 
+                    if (value) then 
                         t = TweenService:Create(tC, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {BackgroundColor3 = Color3.fromRGB(40, 40, 40)}); t:Play()
                     else
                         t = TweenService:Create(tC, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {BackgroundColor3 = Color3.fromRGB(124, 193, 21)}); t:Play()
@@ -357,7 +378,7 @@ function Library:CreateWindow()
                 end)
         
                 tC.MouseLeave:Connect(function()
-                    if (v) then 
+                    if (value) then 
                         t = TweenService:Create(tC, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {BackgroundColor3 = Color3.fromRGB(124, 193, 21)}); t:Play()
                     else
                         t = TweenService:Create(tC, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {BackgroundColor3 = Color3.fromRGB(40, 40, 40)}); t:Play()
@@ -365,21 +386,52 @@ function Library:CreateWindow()
                 end)
 
                 tC.MouseButton1Click:Connect(function()
-                    v = not v
-                    pcall(function()
-                        callback(v)                    
-                    end)
-                    if (v) then 
+                    value = not value
+                    pcall(function() callback(value) end)
+                    if (value) then 
                         t = TweenService:Create(tC, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {BackgroundColor3 = Color3.fromRGB(124, 193, 21)}); t:Play()
                     else
                         t = TweenService:Create(tC, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {BackgroundColor3 = Color3.fromRGB(40, 40, 40)}); t:Play()
                     end
                 end)
+                
+                local props = {}
+                function props:SetText(nText)
+                    nText = nText or text; text = nText; tT.Text = text
+                end
+                function props:SetValue(nValue)
+                    nValue = nValue or value; value = nValue
+
+                    pcall(function() callback(value) end)
+                    if (value) then 
+                        t = TweenService:Create(tC, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {BackgroundColor3 = Color3.fromRGB(124, 193, 21)}); t:Play()
+                    else
+                        t = TweenService:Create(tC, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {BackgroundColor3 = Color3.fromRGB(40, 40, 40)}); t:Play()
+                    end
+                end
+                function props:Update(nText, nValue)
+                    nText = nText or text; nValue = nValue or value
+                    text = nText; value = nValue
+
+                    pcall(function() callback(value) end)
+                    tT.Text = text
+                    if (value) then 
+                        t = TweenService:Create(tC, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {BackgroundColor3 = Color3.fromRGB(124, 193, 21)}); t:Play()
+                    else
+                        t = TweenService:Create(tC, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {BackgroundColor3 = Color3.fromRGB(40, 40, 40)}); t:Play()
+                    end
+                end
+                return props
             end
 
-            function items:Slider(text, range, callback)
-                text = text or "slider"; range = range or {0,10}; callback = callback or function() end
-                local value;
+            function items:Slider(text, start, range, callback)
+                text = text or "slider"; start = start or 0; range = range or {0,10}; callback = callback or function() end
+                if (start > range[2]) then 
+                    start =  range[2]
+                elseif (start < range[1]) then 
+                    start =  range[1]
+                end
+                local value = start;
 
                 local sR = Instance.new("Frame")
                 local sRT = Instance.new("TextLabel")
@@ -433,7 +485,7 @@ function Library:CreateWindow()
                 sRF.BackgroundColor3 = Color3.fromRGB(124, 193, 21)
                 sRF.BorderColor3 = Color3.fromRGB(27, 42, 53)
                 sRF.BorderSizePixel = 0
-                sRF.Size = UDim2.new(0, 0, 1, 0)
+                sRF.Size = UDim2.new(value / range[2], 0, 1, 0)
 
                 sRV.Name = "sRV"
                 sRV.Parent = sRF
@@ -442,11 +494,12 @@ function Library:CreateWindow()
                 sRV.Position = UDim2.new(0, 0, 0.55, 0)
                 sRV.Size = UDim2.new(0, 0, 1, 0)
                 sRV.Font = Enum.Font.SourceSansBold
-                sRV.Text = range[1]
+                sRV.Text = value
                 sRV.TextColor3 = Color3.fromRGB(150, 150, 150)
                 sRV.TextSize = 15.000
                 sRV.TextStrokeTransparency = 0.000
 
+                pcall(function() callback(value) end)
                 sRC.MouseButton1Down:Connect(function()
                     MoveConnection = game:GetService('RunService').Heartbeat:Connect(function()
                         local scale = math.clamp(game:GetService('Players').LocalPlayer:GetMouse().X - sRC.AbsolutePosition.X, 0, sRC.AbsoluteSize.X) /  sRC.AbsoluteSize.X
@@ -455,10 +508,7 @@ function Library:CreateWindow()
                         sRV.Position = UDim2.new(1, 0, 0.55, 0)
 
                         sRF.Size = UDim2.new(scale, 0, 1, 0)
-                        if value > 181 then value = 181 end
-                        pcall(function()
-                            callback(value)
-                        end)
+                        pcall(function() callback(value) end)
                     end)
                     game:GetService('UserInputService').InputEnded:Connect(function(Check)
                         if Check.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -469,11 +519,75 @@ function Library:CreateWindow()
                         end
                     end)
                 end)
+
+                local props = {}
+                function props:SetText(nText)
+                    nText = nText or text; text = nText; sRT.Text = text
+                end
+                function props:SetValue(nValue)
+                    nValue = nValue or value
+                    if (value > range[2]) then 
+                        value = range[2]
+                    elseif (value < range[1]) then 
+                        value = range[1]
+                    end
+
+                    if (value > 0) then 
+                        local scale = value / range[2]
+                        sRV.Text = value
+                        sRV.Position = UDim2.new(1, 0, 0.55, 0)
+                        sRF.Size = UDim2.new(scale, 0, 1, 0)
+                        pcall(function() callback(value) end)
+                    else
+                        sRV.Text = value
+                        sRV.Position = UDim2.new(1, 0, 0.55, 0)
+                        sRF.Size = UDim2.new(0, 0, 1, 0)
+                        pcall(function() callback(value) end)
+                    end
+                end
+                function props:SetRange(nRange)
+                    nRange = nRange or range
+                    if (value > nRange[2]) then 
+                        value = nRange[2]
+                    elseif (value < nRange[1]) then 
+                        value = nRange[1]
+                    end
+                    range = nRange
+
+                    if (value > 0) then 
+                        local scale = value / range[2]
+                        sRV.Text = value
+                        sRV.Position = UDim2.new(1, 0, 0.55, 0)
+                        sRF.Size = UDim2.new(scale, 0, 1, 0)
+                        pcall(function() callback(value) end)
+                    else
+                        sRV.Text = value
+                        sRV.Position = UDim2.new(1, 0, 0.55, 0)
+                        sRF.Size = UDim2.new(0, 0, 1, 0)
+                        pcall(function() callback(value) end)
+                    end
+                end
+                function props:Update(nText, nValue, nRange)
+                    nText = nText or text; nValue = nValue or value; nRange = nRange or range
+                    if (nValue > nRange[2]) then 
+                        nValue =  nRange[2]
+                    elseif (nValue < nRange[1]) then 
+                        nValue =  nRange[1]
+                    end
+                    sRT.Text = text; range = nRange
+
+                    local scale = nValue / range[2]
+                    sRV.Text = nValue
+                    sRV.Position = UDim2.new(1, 0, 0.55, 0)
+                    sRF.Size = UDim2.new(scale, 0, 1, 0)
+                    pcall(function() callback(value) end)
+                end
+                return props
             end
 
             function items:Bind(text, key, callback)
                 text = text or "bind"; key = key or Enum.KeyCode.Escape; callback = callback or function() end
-                local oldBind = key.Name
+                local oldBind, jS = key.Name, false
                 if (oldBind == Enum.KeyCode.Escape.Name) then oldBind = "-" end
 
                 local b = Instance.new("Frame")
@@ -512,23 +626,23 @@ function Library:CreateWindow()
                 bC.TextColor3 = Color3.fromRGB(74, 74, 74)
                 bC.TextSize = 13.000
                 bC.MouseButton1Click:Connect(function()
-                    bC.Text = "[-]"
+                    bC.Text = "[...]"
                     local v1, v2 = game:GetService('UserInputService').InputBegan:Wait();
-                    if v1.KeyCode.Name ~= "Unknown" then
+                    if (v1.KeyCode.Name ~= "Unknown") then
                         bC.Text = "["..string.lower(v1.KeyCode.Name).."]"
-                        oldBind = v1.KeyCode.Name;
+                        oldBind = v1.KeyCode.Name; jS =  true
                         if (oldBind == Enum.KeyCode.Escape.Name) then 
-                            bC.Text = "[-]"
-                            oldBind = "[-]"
+                            bC.Text = "[-]"; oldBind = "[-]"; jS = false
                         end
                     end
                 end)
 
                 local debounce = false
                 game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent) 
-                    if not gameProcessedEvent then 
-                        if input.KeyCode.Name == oldBind then 
-                            if not debounce then
+                    if (not gameProcessedEvent) then 
+                        if (input.KeyCode.Name == oldBind) then 
+                            if (jS) then jS = false; return end
+                            if (not debounce) then
                                 debounce = true
                                 callback()
                                 debounce = false
@@ -536,9 +650,35 @@ function Library:CreateWindow()
                         end
                     end
                 end)
+
+                
+                local props = {}
+                function props:SetText(nText)
+                    nText = nText or text
+                    bT.Text = text
+                end
+                function props:SetKey(nKey)
+                    nKey = nKey or key
+                    bC.Text = "["..string.lower(nKey.Name).."]"
+                    oldBind = nKey.Name;
+                    if (oldBind == Enum.KeyCode.Escape.Name) then 
+                        bC.Text = "[-]"; oldBind = "[-]"; jS = false
+                    end
+                end
+                function props:Update(nText, nKey)
+                    nText = nText or text; nKey = nKey or key
+
+                    bT.Text = text
+                    bC.Text = "["..string.lower(nKey.Name).."]"
+                    oldBind = nKey.Name;
+                    if (oldBind == Enum.KeyCode.Escape.Name) then 
+                        bC.Text = "[-]"; oldBind = "[-]"; jS = false
+                    end
+                end
+                return props
             end
 
-            function items:SetName(text)
+            function items:SetText(text)
                 text = text or "groupbox"
 
                 local gBTS = game:GetService("TextService"):GetTextSize(text, gBT.TextSize, gBT.Font, Vector2.new(math.huge, math.huge))
