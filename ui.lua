@@ -6,8 +6,7 @@ local Library = {}
 
 function Library:Toggle()
     if (not CoreGui:FindFirstChild("Synapense")) then return end
-    local UI = CoreGui:FindFirstChild("Synapense")
-    UI.Enabled = not UI.Enabled
+    CoreGui:FindFirstChild("Synapense").Enabled = not CoreGui:FindFirstChild("Synapense").Enabled
 end
 
 function Library:CreateWindow()
@@ -645,8 +644,7 @@ function Library:CreateWindow()
                 game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent) 
                     if (not gameProcessedEvent) then 
                         if (input.KeyCode.Name == oldBind) then 
-                            print(jS)
-                            if (jS) then jS = false; return end
+                            if (jS) then jS = false return end
                             if (not debounce) then
                                 debounce = true
                                 callback()
