@@ -645,6 +645,7 @@ function Library:CreateWindow()
                 game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent) 
                     if (not gameProcessedEvent) then 
                         if (input.KeyCode.Name == oldBind) then 
+                            print(jS)
                             if (jS) then jS = false; return end
                             if (not debounce) then
                                 debounce = true
