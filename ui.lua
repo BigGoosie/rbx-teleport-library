@@ -357,7 +357,7 @@ function Library:CreateWindow()
 
                 tC.Name = "tC"
                 tC.Parent = tB
-                tC.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                tC.BackgroundColor3 = state and Color3.fromRGB(124, 193, 21) or Color3.fromRGB(40, 40, 40)
                 tC.BorderSizePixel = 0
                 tC.Position = UDim2.new(0.1, 0, 0.133333683, 0)
                 tC.Size = UDim2.new(1, -2, 1, -2)
@@ -480,18 +480,20 @@ function Library:CreateWindow()
                 sRC.TextSize = 15.000
                 sRC.TextXAlignment = Enum.TextXAlignment.Left
 
+                local sRFSize = UDim2.new(value / range[2], 0, 1, 0)
+                if (value == range[1]) then sRFSize = UDim2.new(0, 0, 1, 0) end
                 sRF.Name = "sRF"
                 sRF.Parent = sRC
                 sRF.BackgroundColor3 = Color3.fromRGB(124, 193, 21)
                 sRF.BorderColor3 = Color3.fromRGB(27, 42, 53)
                 sRF.BorderSizePixel = 0
-                sRF.Size = UDim2.new(value / range[2], 0, 1, 0)
+                sRF.Size = sRFSize
 
                 sRV.Name = "sRV"
                 sRV.Parent = sRF
                 sRV.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 sRV.BackgroundTransparency = 1.000
-                sRV.Position = UDim2.new(0, 0, 0.55, 0)
+                sRV.Position = UDim2.new(1, 0, 0.55, 0)
                 sRV.Size = UDim2.new(0, 0, 1, 0)
                 sRV.Font = Enum.Font.SourceSansBold
                 sRV.Text = value
@@ -505,7 +507,6 @@ function Library:CreateWindow()
                         local scale = math.clamp(game:GetService('Players').LocalPlayer:GetMouse().X - sRC.AbsolutePosition.X, 0, sRC.AbsoluteSize.X) /  sRC.AbsoluteSize.X
                         value = math.floor(range[1] + ((range[2] - range[1]) * scale))
                         sRV.Text = value
-                        sRV.Position = UDim2.new(1, 0, 0.55, 0)
 
                         sRF.Size = UDim2.new(scale, 0, 1, 0)
                         pcall(function() callback(value) end)
@@ -531,16 +532,17 @@ function Library:CreateWindow()
                     elseif (value < range[1]) then 
                         value = range[1]
                     end
-
+                    
                     if (value > 0) then 
                         local scale = value / range[2]
+                        if (value == range[1]) then scale = UDim2.new(0, 0, 1, 0) end
                         sRV.Text = value
-                        sRV.Position = UDim2.new(1, 0, 0.55, 0)
+
                         sRF.Size = UDim2.new(scale, 0, 1, 0)
                         pcall(function() callback(value) end)
                     else
                         sRV.Text = value
-                        sRV.Position = UDim2.new(1, 0, 0.55, 0)
+
                         sRF.Size = UDim2.new(0, 0, 1, 0)
                         pcall(function() callback(value) end)
                     end
@@ -556,13 +558,14 @@ function Library:CreateWindow()
 
                     if (value > 0) then 
                         local scale = value / range[2]
+                        if (value == range[1]) then scale = UDim2.new(0, 0, 1, 0) end
                         sRV.Text = value
-                        sRV.Position = UDim2.new(1, 0, 0.55, 0)
+
                         sRF.Size = UDim2.new(scale, 0, 1, 0)
                         pcall(function() callback(value) end)
                     else
                         sRV.Text = value
-                        sRV.Position = UDim2.new(1, 0, 0.55, 0)
+
                         sRF.Size = UDim2.new(0, 0, 1, 0)
                         pcall(function() callback(value) end)
                     end
@@ -576,9 +579,10 @@ function Library:CreateWindow()
                     end
                     sRT.Text = text; range = nRange
 
-                    local scale = nValue / range[2]
+                    local scale = value / range[2]
+                    if (value == range[1]) then scale = UDim2.new(0, 0, 1, 0) end
                     sRV.Text = nValue
-                    sRV.Position = UDim2.new(1, 0, 0.55, 0)
+
                     sRF.Size = UDim2.new(scale, 0, 1, 0)
                     pcall(function() callback(value) end)
                 end
