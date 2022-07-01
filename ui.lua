@@ -303,6 +303,15 @@ function Library:CreateWindow()
                 bC.Text = text
                 bC.TextColor3 = Color3.fromRGB(150, 150, 150)
                 bC.TextSize = 15.000
+
+                bC.MouseEnter:Connect(function()
+                    t = TweenService:Create(bC, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(124, 193, 21)}); t:Play()
+                end)
+        
+                bC.MouseLeave:Connect(function()
+                    t = TweenService:Create(bC, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(150, 150, 150)}); t:Play()
+                end)
+
                 bC.MouseButton1Click:Connect(function()
                     pcall(function() callback() end)
                 end)
@@ -676,6 +685,288 @@ function Library:CreateWindow()
                     oldBind = nKey.Name;
                     if (oldBind == Enum.KeyCode.Escape.Name) then 
                         bC.Text = "[-]"; oldBind = "[-]"; jS = false
+                    end
+                end
+                return props
+            end
+
+            function items:Dropdown(text, index, items, callback)
+                text = text or "dropdown"; index = index or 1; items = items or {"nil"}; callback = callback or function() end
+                local canUse, selected = false, 1
+
+                local dw = Instance.new("Frame")
+                local dwT = Instance.new("TextLabel")
+                local dwB = Instance.new("Frame")
+                local dwC = Instance.new("TextButton")
+                local dwCP = Instance.new("UIPadding")
+                local dwI = Instance.new("ScrollingFrame")
+                local dwILayout = Instance.new("UIListLayout")
+                local dwSP = Instance.new("Frame")
+
+                dw.Name = "dw"
+                dw.Parent = gBIL
+                dw.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                dw.BackgroundTransparency = 1.000
+                dw.BorderSizePixel = 0
+                dw.Size = UDim2.new(1, 0, 0, 35)
+
+                dwT.Name = "dwT"
+                dwT.Parent = dw
+                dwT.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                dwT.BackgroundTransparency = 1.000
+                dwT.BorderSizePixel = 0
+                dwT.Position = UDim2.new(0.115000002, 0, 0, 0)
+                dwT.Size = UDim2.new(1, -28, 0, 15)
+                dwT.Font = Enum.Font.SourceSans
+                dwT.Text = text
+                dwT.TextColor3 = Color3.fromRGB(150, 150, 150)
+                dwT.TextSize = 15.000
+                dwT.TextXAlignment = Enum.TextXAlignment.Left
+
+                dwB.Name = "dwB"
+                dwB.Parent = dw
+                dwB.BackgroundColor3 = Color3.fromRGB(47, 47, 47)
+                dwB.BorderSizePixel = 0
+                dwB.Position = UDim2.new(0.111111112, 0, 0.428571463, 0)
+                dwB.Size = UDim2.new(1, -60, 0, 20)
+
+                dwC.Name = "dwC"
+                dwC.Parent = dwB
+                dwC.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                dwC.BorderSizePixel = 0
+                dwC.Position = UDim2.new(0.00465116277, 0, 0.0500000007, 0)
+                dwC.Size = UDim2.new(1, -2, 1, -2)
+                dwC.AutoButtonColor = false
+                dwC.Font = Enum.Font.SourceSans
+                dwC.Text = items[index]
+                dwC.TextColor3 = Color3.fromRGB(150, 150, 150)
+                dwC.TextSize = 15.000
+                dwC.TextXAlignment = Enum.TextXAlignment.Left
+
+                dwCP.Name = "dwCP"
+                dwCP.Parent = dwC
+                dwCP.PaddingLeft = UDim.new(0, 11)
+
+                dwI.Name = "Items"
+                dwI.Parent = dwB
+                dwI.Active = true
+                dwI.Visible = false
+                dwI.BackgroundColor3 = Color3.fromRGB(47, 47, 47)
+                dwI.BorderSizePixel = 0
+                dwI.Position = UDim2.new(0, 0, 1.01999998, 0)
+                dwI.Size = UDim2.new(1, 0, 0, 0)
+                dwI.ZIndex = 2
+                dwI.ScrollBarThickness = 0
+
+                dwILayout.Parent = dwI
+                dwILayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+                dwILayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+                dwSP.Name = "dwSP"
+                dwSP.Parent = dwI
+                dwSP.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                dwSP.BackgroundTransparency = 1.000
+                dwSP.BorderSizePixel = 0
+                dwSP.Size = UDim2.new(1, 0, 0, 1)
+                dwSP.ZIndex = 2
+
+                if (#items ~= 0) then 
+                    for i=1, #items do
+                        local item = Instance.new("TextButton")
+                        local itemP = Instance.new("UIPadding")
+
+                        item.Name = "item"
+                        item.Parent = dwI
+                        item.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                        item.BorderSizePixel = 0
+                        item.Size = UDim2.new(1, -2, 0, 20)
+                        item.AutoButtonColor = false
+                        item.ZIndex = 2
+                        item.Font = Enum.Font.SourceSans
+                        item.Text = items[i]
+                        item.TextColor3 = Color3.fromRGB(150, 150, 150)
+                        item.TextSize = 14.000
+                        item.TextXAlignment = Enum.TextXAlignment.Left
+        
+                        itemP.Name = "itemP"
+                        itemP.Parent = item
+                        itemP.PaddingLeft = UDim.new(0, 11)
+
+                        item.MouseEnter:Connect(function()
+                            t = TweenService:Create(item, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(124, 193, 21)}); t:Play()
+                        end)
+                
+                        item.MouseLeave:Connect(function()
+                            t = TweenService:Create(item, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(150, 150, 150)}); t:Play()
+                        end)
+
+                        item.MouseButton1Click:Connect(function()
+                            if (not canUse) then return end
+                            dwC.Text = items[i]
+                            dwI.Visible = false
+                            canUse = false
+                            selected = i
+                            callback(i, items[i])
+                        end)
+                    end
+                end
+
+                dwC.MouseButton1Click:Connect(function()
+                    if (#items == 0) then return end
+                    dwI.Visible = not dwI.Visible
+                    dwI.Size = UDim2.new(1, 0, 0, (2 + (20*#items)))
+                    canUse = not canUse
+                end)
+
+                local props = {}
+                function props:SetText(nText) 
+                    nText = nText or text; text = nText; dwT.Text = text
+                end
+                function props:SetValue(nValue)
+                    nValue = nValue or selected; selected = nValue
+                    dwC.Text = items[selected]
+                    callback(selected, items[selected])
+                end
+                function props:SetItems(nIndex, nItems)
+                    nIndex = nIndex or selected; nItems = nItems or items
+                    selected = nIndex; items = nItems
+                    for i, v in pairs(dwI:GetChildren()) do 
+                        if (v:IsA("UIListLayout")) then continue end
+                        v:Destroy()
+                    end
+
+                    for i=1, #items do
+                        local item = Instance.new("TextButton")
+                        local itemP = Instance.new("UIPadding")
+
+                        item.Name = "item"
+                        item.Parent = dwI
+                        item.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                        item.BorderSizePixel = 0
+                        item.Size = UDim2.new(1, -2, 0, 20)
+                        item.AutoButtonColor = false
+                        item.ZIndex = 2
+                        item.Font = Enum.Font.SourceSans
+                        item.Text = items[i]
+                        item.TextColor3 = Color3.fromRGB(150, 150, 150)
+                        item.TextSize = 14.000
+                        item.TextXAlignment = Enum.TextXAlignment.Left
+        
+                        itemP.Name = "itemP"
+                        itemP.Parent = item
+                        itemP.PaddingLeft = UDim.new(0, 11)
+
+                        item.MouseEnter:Connect(function()
+                            t = TweenService:Create(item, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(124, 193, 21)}); t:Play()
+                        end)
+                
+                        item.MouseLeave:Connect(function()
+                            t = TweenService:Create(item, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(150, 150, 150)}); t:Play()
+                        end)
+
+                        item.MouseButton1Click:Connect(function()
+                            if (not canUse) then return end
+                            dwC.Text = items[i]
+                            dwI.Visible = false
+                            canUse = false
+                            selected = i
+                            callback(i, items[i])
+                        end)
+                    end
+
+                    dwC.Text = items[selected]
+                    callback(selected, items[selected])
+                end
+
+                function props:AddItem(nItem)
+                    nItem = nItem or {"nil"}; items[#items+1] = nItem
+
+                    local item = Instance.new("TextButton")
+                    local itemP = Instance.new("UIPadding")
+                    local i = #items+1
+
+                    item.Name = "item"
+                    item.Parent = dwI
+                    item.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                    item.BorderSizePixel = 0
+                    item.Size = UDim2.new(1, -2, 0, 20)
+                    item.AutoButtonColor = false
+                    item.ZIndex = 2
+                    item.Font = Enum.Font.SourceSans
+                    item.Text = nItem
+                    item.TextColor3 = Color3.fromRGB(150, 150, 150)
+                    item.TextSize = 14.000
+                    item.TextXAlignment = Enum.TextXAlignment.Left
+    
+                    itemP.Name = "itemP"
+                    itemP.Parent = item
+                    itemP.PaddingLeft = UDim.new(0, 11)
+
+                    item.MouseEnter:Connect(function()
+                        t = TweenService:Create(item, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(124, 193, 21)}); t:Play()
+                    end)
+            
+                    item.MouseLeave:Connect(function()
+                        t = TweenService:Create(item, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(150, 150, 150)}); t:Play()
+                    end)
+
+                    item.MouseButton1Click:Connect(function()
+                        if (not canUse) then return end
+                        dwC.Text = nItem
+                        dwI.Visible = false
+                        canUse = false
+                        selected = i
+                        callback(i, items[i])
+                    end)
+                end
+
+                function props:Update(nText, nValue, nItems)
+                    nText = nText or text; nValue = nValue or selected; nItems = nItems or items
+                    text = nText; selected = nValue; items = nItems 
+                    dwT.Text = text; dwC.Text = items[selected]
+
+                    for i, v in pairs(dwI:GetChildren()) do 
+                        if (v:IsA("UIListLayout")) then continue end
+                        v:Destroy()
+                    end
+
+                    for i=1, #items do
+                        local item = Instance.new("TextButton")
+                        local itemP = Instance.new("UIPadding")
+
+                        item.Name = "item"
+                        item.Parent = dwI
+                        item.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                        item.BorderSizePixel = 0
+                        item.Size = UDim2.new(1, -2, 0, 20)
+                        item.AutoButtonColor = false
+                        item.ZIndex = 2
+                        item.Font = Enum.Font.SourceSans
+                        item.Text = items[i]
+                        item.TextColor3 = Color3.fromRGB(150, 150, 150)
+                        item.TextSize = 14.000
+                        item.TextXAlignment = Enum.TextXAlignment.Left
+        
+                        itemP.Name = "itemP"
+                        itemP.Parent = item
+                        itemP.PaddingLeft = UDim.new(0, 11)
+
+                        item.MouseEnter:Connect(function()
+                            t = TweenService:Create(item, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(124, 193, 21)}); t:Play()
+                        end)
+                
+                        item.MouseLeave:Connect(function()
+                            t = TweenService:Create(item, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(150, 150, 150)}); t:Play()
+                        end)
+
+                        item.MouseButton1Click:Connect(function()
+                            if (not canUse) then return end
+                            dwC.Text = items[i]
+                            dwI.Visible = false
+                            canUse = false
+                            selected = i
+                            callback(i, items[i])
+                        end)
                     end
                 end
                 return props
