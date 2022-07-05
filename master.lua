@@ -264,31 +264,31 @@ function Library.UI:CreateWindow()
 
         if (activeSection == nil) then 
             sectionClick.TextColor3 = Color3.fromRGB(124, 193, 21)
-            activeSection = sText
+            activeSection = sectionFrame
         end
 
         sectionClick.MouseEnter:Connect(function()
-            if (activeSection == sText) then return end
+            if (activeSection == sectionFrame) then return end
             tween = TweenService:Create(sectionClick, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(124, 193, 21)}); tween:Play()
         end)
 
         sectionClick.MouseLeave:Connect(function()
-            if (activeSection == sText) then return end
+            if (activeSection == sectionFrame) then return end
             tween = TweenService:Create(sectionClick, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(150, 150, 150)}); tween:Play()
         end)
 
         sectionClick.MouseButton1Click:Connect(function()
-            if (activeSection == sText) then return end
-            tween = TweenService:Create(sections[activeSection]["sectionClick"], TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(150, 150, 150)}); tween:Play()
+            if (activeSection == sectionFrame) then return end
+            tween = TweenService:Create(activeSection, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(150, 150, 150)}); tween:Play()
             for i, v in pairs(groupboxes:GetDescendants()) do
                 if (v:IsA("UIListLayout") or v:IsA("UIGridLayout") or v:IsA("UIPadding")) then continue end
-                if (v.Parent.Name == sText and v.Name == "groupbox") then 
+                if (v.Parent.Name == sectionFrame and v.Name == "groupbox") then 
                     v.Visible = true
-                elseif (v.Parent.Name ~= sText and v.Name == "groupbox") then 
+                elseif (v.Parent.Name ~= sectionFrame and v.Name == "groupbox") then 
                     v.Visible = false
                 end
             end
-            activeSection = sText
+            activeSection = sectionFrame
         end)
 
         local groupboxCreate = {}
@@ -1000,4 +1000,5 @@ function Library.Teleport:Smart(...)
 		)
 	end
 end
+
 return Library
