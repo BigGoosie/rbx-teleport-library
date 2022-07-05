@@ -281,10 +281,9 @@ function Library.UI:CreateWindow()
             if (activeSection == sectionFrame) then return end
             tween = TweenService:Create(activeSection.sectionClick, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(150, 150, 150)}); tween:Play()
             for i, v in pairs(groupboxes:GetDescendants()) do
-                if (v:IsA("UIListLayout") or v:IsA("UIGridLayout") or v:IsA("UIPadding")) then continue end
-                if (v.Parent.Name == sectionFrame and v.Name == "groupbox") then 
+                if (v.Parent == sectionFrame and v.Name == "groupbox") then 
                     v.Visible = true
-                elseif (v.Parent.Name ~= sectionFrame and v.Name == "groupbox") then 
+                elseif (v.Parent ~= sectionFrame and v.Name == "groupbox") then 
                     v.Visible = false
                 end
             end
@@ -1000,4 +999,5 @@ function Library.Teleport:Smart(...)
 		)
 	end
 end
+
 return Library
