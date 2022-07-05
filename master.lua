@@ -279,7 +279,7 @@ function Library.UI:CreateWindow()
 
         sectionClick.MouseButton1Click:Connect(function()
             if (activeSection == sectionFrame) then return end
-            tween = TweenService:Create(activeSection, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(150, 150, 150)}); tween:Play()
+            tween = TweenService:Create(activeSection.sectionClick, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(150, 150, 150)}); tween:Play()
             for i, v in pairs(groupboxes:GetDescendants()) do
                 if (v:IsA("UIListLayout") or v:IsA("UIGridLayout") or v:IsA("UIPadding")) then continue end
                 if (v.Parent.Name == sectionFrame and v.Name == "groupbox") then 
@@ -1000,5 +1000,4 @@ function Library.Teleport:Smart(...)
 		)
 	end
 end
-
 return Library
