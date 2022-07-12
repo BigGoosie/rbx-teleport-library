@@ -294,6 +294,7 @@ function Library.UI:CreateWindow()
 
         local groupboxCreate = {}
         function groupboxCreate:Groupbox(gText)
+            print(sText.. " has #" .. #groupboxCreate)
             gText = gText or "groupbox"
 
             local groupbox = Instance.new("Frame")
