@@ -228,7 +228,7 @@ function Library.UI:CreateWindow()
         local tween = nil
 
         local sectionFrame = Instance.new("Frame")
-        sectionFrame.Name = "sectionFrame"
+        sectionFrame.Name = sText
         sectionFrame.Parent = sections
         sectionFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         sectionFrame.BackgroundTransparency = 1.000
@@ -278,12 +278,12 @@ function Library.UI:CreateWindow()
         end)
 
         sectionClick.MouseButton1Click:Connect(function()
-            if (activeSection == sectionFrame) then return end
+            if (activeSection.Name == sectionFrame.Name) then return end
             tween = TweenService:Create(activeSection.sectionClick, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(150, 150, 150)}); tween:Play()
             for i, v in pairs(groupboxes:GetDescendants()) do
-                if (v.Parent == sectionFrame and v.Name == "groupbox") then 
+                if (v.Parent.Name == sectionFrame.Name and v.Name == "groupbox") then 
                     v.Visible = true
-                elseif (v.Parent ~= sectionFrame and v.Name == "groupbox") then 
+                elseif (v.Parent.Name ~= sectionFrame.Name and v.Name == "groupbox") then 
                     v.Visible = false
                 end
             end
@@ -293,9 +293,9 @@ function Library.UI:CreateWindow()
         local groupboxCreate = {}
         local pGroupboxCount = 0
         function groupboxCreate:Groupbox(gText)
+            if (pGroupboxCount >= 5) then return end
             gText = gText or "groupbox"
             pGroupboxCount += 1
-            print(pGroupboxCount)
 
             local groupbox = Instance.new("Frame")
             groupbox.Name = "groupbox"
