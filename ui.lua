@@ -278,7 +278,7 @@ function Library.UI:CreateWindow()
         end)
 
         sectionClick.MouseButton1Click:Connect(function()
-            if (activeSection.Name == sectionFrame.Name) then return end
+            if (activeSection == sectionFrame) then return end
             tween = TweenService:Create(activeSection.sectionClick, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = Color3.fromRGB(150, 150, 150)}); tween:Play()
             for i, v in pairs(groupboxes:GetDescendants()) do
                 if (v.Parent.Name == sectionFrame.Name and v.Name == "groupbox") then 
