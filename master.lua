@@ -283,8 +283,10 @@ function Library.UI:CreateWindow()
             for i, v in pairs(groupboxes:GetDescendants()) do
                 if (v.Parent == sectionFrame and v.Name == "groupbox") then 
                     v.Visible = true
+                    print(v.Parent.Name.. " has been set to true")
                 elseif (v.Parent ~= sectionFrame and v.Name == "groupbox") then 
                     v.Visible = false
+                    print(v.Parent.Name.. " has been set to false")
                 end
             end
             activeSection = sectionFrame
@@ -999,5 +1001,4 @@ function Library.Teleport:Smart(...)
 		)
 	end
 end
-
 return Library
