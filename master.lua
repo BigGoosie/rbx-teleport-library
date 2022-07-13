@@ -1,4 +1,4 @@
-local CoreGui, TweenService, TextService, UIS, Mouse = game:GetService("CoreGui"), game:GetService("TweenService"), game:GetService("TextService"), game:GetService("UserInputService"), game.Players.LocalPlayer:GetMouse()
+local CoreGui, TweenService, TextService, UIS, HttpService, Mouse = game:GetService("CoreGui"), game:GetService("TweenService"), game:GetService("TextService"), game:GetService("UserInputService"), game:GetService("HttpService"), game.Players.LocalPlayer:GetMouse()
 local Library = {}
 
 Library.Utils = {}
@@ -43,6 +43,30 @@ function Library.Utils:Drag(Instance)
 end
 function Library.Utils:StringSize(string, fontSize, font)
     return TextService:GetTextSize(string, fontSize, font, Vector2.new(math.huge, math.huge))
+end
+
+Library.Settings = {}
+function Library.Settings:Save(table, id)
+    if (not syn) then return end
+    if (not isfolder("synapense")) then makefolder("synapense") end
+    --[[
+        Basic checks because we want to make sure no fucky wukies are made UwU
+    ]]
+
+    pcall(function() writefile("synapense/settings_" ..tostring(id) .. ".syn", HttpService:JSONEncode(table)) end)
+    return true
+end 
+function Library.Settings:Load(id)
+    if (not syn) then return end
+    if (not isfolder("synapense")) then makefolder("synapense") end
+    if (not isfile("synapense/settings_" ..tostring(id) .. ".syn")) then return end
+    --[[
+        Basic checks because we want to make sure no fucky wukies are made UwU
+    ]]
+
+    local result = {}
+    pcall(function() result = HttpService:JSONDecode(readfile("synapense/settings_" ..tostring(id) .. ".syn")) end)
+    return result
 end
 
 Library.UI = {}
