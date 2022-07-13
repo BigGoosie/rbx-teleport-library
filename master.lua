@@ -81,7 +81,7 @@ function Library.UI:CreateNotification(title, message, duration)
         local notificationListLayout = Instance.new("UIListLayout")
 
         notificationList.Name = "notificationList"
-        notificationList.Parent = game.StarterGui.Synapense
+        notificationList.Parent = Library.UI.ScreenGui
         notificationList.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         notificationList.BackgroundTransparency = 1.000
         notificationList.Size = UDim2.new(0, 300, 1, 0)
