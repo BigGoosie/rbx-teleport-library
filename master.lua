@@ -753,7 +753,7 @@ function Library.UI:CreateWindow()
                             if (not debounce) then
                                 debounce = true
                                 value = not value
-                                callback(value)
+                                callback(input.KeyCode, value)
                                 tween = TweenService:Create(bindEdit, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {TextColor3 = value and Color3.fromRGB(124, 193, 21) or Color3.fromRGB(150, 150, 150)}); tween:Play()
                                 debounce = false
                             end
