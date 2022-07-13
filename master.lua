@@ -59,7 +59,7 @@ end
 function Library.Settings:Load(id)
     if (not syn) then return end
     if (not isfolder("synapense")) then makefolder("synapense") end
-    if (not isfile("synapense/settings_" ..tostring(id) .. ".syn")) then return end
+    if (not isfile("synapense/settings_" ..tostring(id) .. ".syn")) then return false end
     --[[
         Basic checks because we want to make sure no fucky wukies are made UwU
     ]]
