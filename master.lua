@@ -589,7 +589,7 @@ function Library.UI:CreateWindow()
                 sliderValue.Parent = sliderFill
                 sliderValue.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 sliderValue.BackgroundTransparency = 1.000
-                sliderValue.Position = UDim2.new(0, 184, 0, 3)
+                sliderValue.Position = UDim2.new(1, 0, 0, 3)
                 sliderValue.Size = UDim2.new(0, 0, 0, 10)
                 sliderValue.Font = Enum.Font.SourceSansBold
                 sliderValue.Text = tostring(value)
@@ -932,7 +932,7 @@ function Library.Teleport:Fastcall(v)
 end
 
 function Library.Teleport:Distance(v)
-	return (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - Fastcall(v)).Magnitude
+	return (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - Library.Teleport:Fastcall(v)).Magnitude
 end
 function Library.Teleport:Advanced(...)
 	local lp = game.Players.LocalPlayer
