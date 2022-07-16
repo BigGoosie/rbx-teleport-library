@@ -1,4 +1,3 @@
--- Made with love and care. Don't make fun of me <3
 local CoreGui, TweenService, TextService, UIS, HttpService, Mouse = game:GetService("CoreGui"), game:GetService("TweenService"), game:GetService("TextService"), game:GetService("UserInputService"), game:GetService("HttpService"), game.Players.LocalPlayer:GetMouse()
 local Library = {}
 
@@ -62,13 +61,13 @@ Library.Settings = {}
 function Library.Settings:Save(settings)
     if (not syn) then return end
     if (not isfolder("silence")) then makefolder("silence") end
-    if (not isfile("silence/settings_" ..tostring(id) .. ".syn")) then return false end
+    if (not isfile("silence/settings_" ..tostring(game.PlaceId) .. ".syn")) then return false end
     --[[
         Basic checks because we want to make sure no fucky wukies are made UwU
     ]]
 
     local result = {}
-    pcall(function() result = HttpService:JSONDecode(readfile("silence/settings_" ..tostring(id) .. ".syn")) end)
+    pcall(function() result = HttpService:JSONDecode(readfile("silence/settings_" ..tostring(game.PlaceId) .. ".syn")) end)
     return result
 end
 function Library.Settings:Load()
