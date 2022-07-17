@@ -882,8 +882,8 @@ function Library.UI:CreateWindow(wTitle)
                 return properties
             end
             function createItem:Bind(text, tooltip, key, callback)
-                text = text or "Bind"; tooltip = tooltip or "no tooltip :("; key = key or Enum.KeyCode.Escape; callback = callback or function() end
-                if (key == Enum.KeyCode.Escape) then key = "None" end
+                text = text or "Bind"; tooltip = tooltip or "no tooltip :("; key = key or Enum.KeyCode.Escape.Name; callback = callback or function() end
+                if (key == Enum.KeyCode.Escape or key == Enum.KeyCode.Escape.Name) then key = "None" end
 
                 local self, editedRecently = Library.UI, false -- 1. because im lazy and don't want to reference Library.UI, 2. because of localization!
                 local bindFrame = self:Instance("Frame", {
@@ -970,7 +970,7 @@ function Library.UI:CreateWindow(wTitle)
                     if (v1.KeyCode.Name ~= "Unknown") then
                         bindEdit.Text = v1.KeyCode.Name
                         key = v1.KeyCode.Name; editedRecently =  true
-                        if (key == Enum.KeyCode.Escape.Name) then 
+                        if (key == Enum.KeyCode.Escape.Name or key == Enum.KeyCode.Escape) then
                             bindEdit.Text = "None"; key = "None"; editedRecently = false
                         end
                     end
@@ -978,8 +978,8 @@ function Library.UI:CreateWindow(wTitle)
 
                 local debounce, status = false, false
                 UIS.InputBegan:Connect(function(input, gameProcessedEvent)
-                    if (not gameProcessedEvent) then 
-                        if (input.KeyCode.Name == key) then 
+                    if (not gameProcessedEvent) then
+                        if (input.KeyCode.Name == key or input.KeyCode == key) then
                             if (editedRecently) then editedRecently = false return end
                             if (not debounce) then
                                 debounce = true
