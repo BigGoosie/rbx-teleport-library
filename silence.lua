@@ -982,7 +982,7 @@ function Library.UI:CreateWindow(wTitle)
                             if (not debounce) then
                                 debounce = true
                                 status = not status
-                                callback(status, key)
+                                pcall(function() callback(status, key) end)
                                 Library.Utils:Tween(bindEdit, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {
                                     TextColor3 = status and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(200, 200, 200)
                                 }):Play()
