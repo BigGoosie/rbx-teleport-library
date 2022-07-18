@@ -61,14 +61,12 @@ Library.Settings = {}
 function Library.Settings:Save(settings)
     if (not syn) then return end
     if (not isfolder("silence")) then makefolder("silence") end
-    if (not isfile("silence/settings_" ..tostring(game.PlaceId) .. ".syn")) then return false end
     --[[
         Basic checks because we want to make sure no fucky wukies are made UwU
     ]]
 
-    local result = {}
-    pcall(function() result = HttpService:JSONDecode(readfile("silence/settings_" ..tostring(game.PlaceId) .. ".syn")) end)
-    return result
+    pcall(function() writefile("silence/settings_" ..tostring(game.PlaceId) .. ".syn", HttpService:JSONEncode(settings)) end)
+    return true
 end
 function Library.Settings:Load()
     if (not syn) then return end
