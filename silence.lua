@@ -1,3 +1,4 @@
+local DataStoreService = game:GetService("DataStoreService")
 local CoreGui, TweenService, TextService, UIS, HttpService, Mouse = game:GetService("CoreGui"), game:GetService("TweenService"), game:GetService("TextService"), game:GetService("UserInputService"), game:GetService("HttpService"), game.Players.LocalPlayer:GetMouse()
 local Library = {}
 
@@ -460,6 +461,7 @@ function Library.UI:CreateWindow(wTitle)
                     BackgroundTransparency = 1,
                     Size = UDim2.new(0, 215, 0, 20),
                     Font = Enum.Font.SourceSansSemibold,
+                    Text = text,
                     TextColor3 = Color3.fromRGB(180, 180, 180),
                     TextSize = 15,
                     TextStrokeTransparency = 0
