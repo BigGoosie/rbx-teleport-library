@@ -93,7 +93,7 @@ function Library.UI:Instance(instance, props)
     return inst
 end
 Library.UI.Display = Library.UI:Instance("ScreenGui", {Parent = CoreGui})
-if (syn) then syn.protect_gui(Library.UI.Display) end
+-- if (syn) then syn.protect_gui(Library.UI.Display) end -- Depricated in v3
 
 local tweenList = {}
 function Library.UI:Toggle()
