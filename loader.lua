@@ -8,3 +8,13 @@ function m:Load(placeIdTable, github)
         loadstring(game:HttpGet(github.. tostring(game.PlaceId).. ".lua", true))()
     end
 end; return m
+
+--[[
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/BigGoosie/rbx-libraries/main/loader.lua",true))():Load({
+    placeId1,
+    placeId2,
+    placeId3
+}, "https://raw.githubusercontent.com/BigGoosie/SomeRepo/")
+
+]]
